@@ -181,3 +181,4 @@ print(f"Swapped Memory Size: {psutil.Process().memory_info().vms / (1024 * 1024)
 
 print(f"Time for N-body process 1: {end_time1-start_time1:.2f} seconds")	
 print(f"Time for N-body process 2: {end_time2-start_time2:.2f} seconds")
+print("Hej")

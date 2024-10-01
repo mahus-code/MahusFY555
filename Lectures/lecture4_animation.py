@@ -17,7 +17,7 @@ def animate(frame):
 
 # animation:
 
-anim = animation.FuncAnimation(fig, animate, frames = 400, interval = 50 , blit = False)
-anim.save("sine.gif", writer = animation.PillowWriter(fps = 1))
+anim = animation.FuncAnimation(fig, animate, frames = 100, interval = 50 , blit = False)
+anim.save("sine.gif", writer = animation.PillowWriter(fps = 2))
 
 plt.show()

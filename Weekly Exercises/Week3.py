@@ -1,12 +1,13 @@
 import numpy as np
-import matplotlib.pyplot as plt
+from numpy.typing import NDArray
+#import matplotlib.pyplot as plt
 import random as rand
-import pandas as pd
+#import pandas as pd
 import psutil
 import time
 
 
-def check_for_nonZero(array):
+def check_for_nonZero(array: NDArray[np.float64]) -> None:
 	count = 0
 	flag = False
 	print("ndim", np.ndim(array))
@@ -36,15 +37,15 @@ def check_for_nonZero(array):
 	if not flag:
 		print("No non-zeros")
 	print("Non-zero Count:", count)
-	return 0
+	return
 
 
-def randomCompliment(list):
-	i = rand.randint(0, len(list)-1)
+def randomCompliment(list: str) -> None:
+	i: int = rand.randint(0, len(list)-1)
 	print("Your random compliment is: %s" % list[i])
 
 
-def getAcc( pos, mass, G, softening ):
+def getAcc( pos: NDArray[np.float64], mass: NDArray[np.float64], G: float, softening: float ) -> NDArray[np.float64]:
 	"""
 	Calculate the acceleration on each particle due to Newton's Law 
 	pos  is an N x 3 matrix of positions
@@ -54,9 +55,9 @@ def getAcc( pos, mass, G, softening ):
 	a is N x 3 matrix of accelerations
 	"""
 	# positions r = [x,y,z] for all particles
-	x = pos[:,0:1] # all rows, and 1 column (0), doesn't include 1
-	y = pos[:,1:2]
-	z = pos[:,2:3]
+	x: NDArray[np.float64] = pos[:,0:1] # all rows, and 1 column (0), doesn't include 1
+	y: NDArray[np.float64] = pos[:,1:2]
+	z: NDArray[np.float64] = pos[:,2:3]
 
 	# matrix that stores all pairwise particle separations: r_j - r_i
 	dx = x.T - x
@@ -72,11 +73,11 @@ def getAcc( pos, mass, G, softening ):
 	az = G * (dz * inv_r3) @ mass
 
 	# pack together the acceleration components
-	a = np.hstack((ax,ay,az))
+	a: NDArray[np.float64] = np.hstack((ax,ay,az))
 	
 	return a
 
-def getAcc2( pos2, mass2, G2, softening2 ):
+def getAcc2( pos2: NDArray[np.float64], mass2: NDArray[np.float64], G2: float, softening2: float ) -> NDArray[np.float64]:
 	x = pos2[:,0:1] # all rows, and 1 column (0), doesn't include 1
 	y = pos2[:,1:2]
 	z = pos2[:,2:3]
@@ -95,11 +96,11 @@ def getAcc2( pos2, mass2, G2, softening2 ):
 
 			dist_squared = (dx**2 + dy**2 + dz**2 + softening2**2)
 			if dist_squared > 0:
-				inv_r3 = (dist_squared)**(-1.5)
+				inv_r3: float = (dist_squared)**(-1.5)
 
-			ax[n] += G2 * (dx*inv_r3) * mass2[m, 0]
-			ay[n] += G2 * (dy*inv_r3) * mass2[m, 0]
-			az[n] += G2 * (dz*inv_r3) * mass2[m, 0]
+				ax[n] += G2 * (dx*inv_r3) * mass2[m, 0]
+				ay[n] += G2 * (dy*inv_r3) * mass2[m, 0]
+				az[n] += G2 * (dz*inv_r3) * mass2[m, 0]
 	
 	# pack together the acceleration components
 	a = np.vstack((ax,ay,az)).T

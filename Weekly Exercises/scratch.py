@@ -18,3 +18,16 @@ for i in range(3):
         dx[i, j] = x[j, 0] - x[i, 0]
 
 print(dx)
+
+
+ax = np.array([1, 1, 1, 1])
+ay = np.array([2, 2, 2, 2])
+az = np.array([3, 3, 3, 3,])
+
+print("ax:", ax)
+print("ay:", ay)
+print("az", az)
+
+a = np.vstack((ax, ay, az))
+print("a:", a)
+print("a.T:", a.T)

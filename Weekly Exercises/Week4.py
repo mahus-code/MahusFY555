@@ -108,11 +108,6 @@ acc_slow = getAcc_slow( pos_slow, mass, G, softening)
 
 # Number of timesteps
 Nt = int(np.ceil(tEnd/dt))
-	
-# Save energies, particle orbits for plotting trails
-pos_save = np.zeros((N,3,Nt+1))
-pos_save[:,:,0] = pos
-t_all = np.arange(Nt+1)*dt
 
 compliments = ["You're strong", "You're good at programming", 
 			   "You are handsome", "You are very intelligent", 
@@ -125,12 +120,35 @@ pos_2d_time = []
 fig, (ax1, ax2) = plt.subplots(1, 2, sharex = False, sharey = False) # subplots for scatter and pie chart
 initial, = ax1.plot(pos[:,0:1], pos[:,1:2], 'o', color='turquoise') # plot of initial snapshot
 
+fig_anim = plt.figure() # setup figure for the 3D animation
+plot = fig_anim.add_subplot(projection='3d')
+scatter = plot.scatter([pos[:,0]], [pos[:,1]], [pos[:,2]]) # Initial position needs to be given - otherwise blank figure
+
+# Add axis labels + title for 3D animation
+plot.set_xlabel('X-position')
+plot.set_ylabel('Y-position')
+plot.set_zlabel('Z-position')
+plot.set_title('3D animation of N-body simulation')
+
+# Setup 2d animation
+fig_2d = plt.figure()
+ax_2d = plt.axes()
+line_2d = ax_2d.scatter([pos[:,0]], [pos[:,1]], zorder=2) # Initial positions are given, zorder ensures points above grid
+
+# Lists to store mean x, time and std
+mean_x = []
+time_x = []
+std_x = []
 
 start_time_quick = time.time() # timer starts for the quick simulation
-for i in range(N):
+for i in range(Nt):
 	# save time with position
 	pos_time.append(pos.copy()) # .copy() avoids referencing
 	pos_2d_time.append(pos[:,0:2].copy()) # only want x,y columns
+
+	mean_x.append(np.mean(pos[:,0]))
+	time_x.append(t)
+	std_x.append(np.std(pos[:,0]))
 
 	# (1/2) kick
 	vel += acc * dt/2.0
@@ -181,23 +199,18 @@ for autotext in autotexts:
 # Title of pie chart
 ax2.set_title('Percentage of Particles with Negative Positions')
 
+# Plotting the mean of the x-coordinate versus time
+# with standard deviation shown as errorbars
+fig_mean, ax_mean = plt.subplots()
+plt.errorbar(time_x, mean_x, yerr=std_x)
+ax_mean.set_xlabel('Time (s)')
+ax_mean.set_ylabel('Mean x coordinate')
+ax_mean.set_title('Time (s) versus mean x coordinate of a N-body simulation')
+ax_mean.grid(True)
+
 """ ---------------------------------------------------------------------------------------------------------------- """
 """                                                       Animation                                                  """
 
-fig_anim = plt.figure() # setup figure for the 3D animation
-plot = fig_anim.add_subplot(projection='3d')
-scatter = plot.scatter([pos[:,0]], [pos[:,1]], [pos[:,2]]) # Initial position needs to be given - otherwise blank figure
-
-# Add axis labels + title for 3D animation
-plot.set_xlabel('X-position')
-plot.set_ylabel('Y-position')
-plot.set_zlabel('Z-position')
-plot.set_title('3D animation of N-body simulation')
-
-# Setup 2d animation
-fig_2d = plt.figure()
-ax_2d = plt.axes()
-line_2d = ax_2d.scatter([pos[:,0]], [pos[:,1]], zorder=2) # Initial positions are given, zorder ensures points above grid
 
 # Add axis labels + title + grid for 2D animation
 ax_2d.set_xlabel('X-position')
@@ -227,21 +240,21 @@ anim_2d.save('2d particle animation.gif', writer='pillow', fps=24)
 '''----------------------------------------------------------------------------------------------'''
 '''                      Slow Simulation                                                         '''
 
-N         = 100    # Number of particles
+N         = 10    # Number of particles
 t         = 0      # current time of the simulation
-tEnd      = 10.0   # time at which simulation ends
+tEnd      = 2.0   # time at which simulation ends
 dt        = 0.01   # timestep
 softening = 0.1    # softening length
 G         = 1.0    # Newton's Gravitational Constant
 
 # Timer starts for the slow simulation
 start_time_slow = time.time()
-for i in range(N):
+for i in range(Nt):
 	vel += acc_slow * dt/2.0
 	pos_slow += vel_slow * dt
 
 	acc_slow = getAcc_slow( pos_slow, mass, G, softening )
-	vel += acc * dt/2.0
+	vel += acc_slow * dt/2.0
 
 	t += dt
 end_time_slow = time.time() # timer ends for the slow simulation

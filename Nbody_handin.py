@@ -5,7 +5,6 @@ import random as rand
 import psutil
 import time
 from matplotlib import animation
-import math
 
 # Function to print a random compliment
 def randomCompliment(list: str) -> None:

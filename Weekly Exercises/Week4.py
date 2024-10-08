@@ -81,12 +81,12 @@ def getAcc_slow( pos2: NDArray[np.float64], mass2: NDArray[np.float64], G2: floa
 """ N-body simulation """
 	
 # Simulation parameters
-N         = 100    # Number of particles
+N         = 10    # Number of particles
 t         = 0      # current time of the simulation
-tEnd      = 10.0   # time at which simulation ends
+tEnd      = 2.0   # time at which simulation ends
 dt        = 0.01   # timestep
 softening = 0.1    # softening length
-G         = 1.0    # Newton's Gravitational Constant
+G         = 10.0    # Newton's Gravitational Constant
 	
 # Generate Initial Conditions
 np.random.seed(17)            # set the random number generator seed
@@ -233,8 +233,8 @@ anim = animation.FuncAnimation(fig=fig_anim, func=animate, frames=len(pos_time),
 anim_2d = animation.FuncAnimation(fig=fig_2d, func=animate_2d, frames=len(pos_2d_time), interval=50)
 
 # Saving 2D and 3D animations
-anim.save('3d particle animation.gif', writer='pillow', fps=24)
-anim_2d.save('2d particle animation.gif', writer='pillow', fps=24)
+#anim.save('3d particle animation.gif', writer='pillow', fps=24)
+#anim_2d.save('2d particle animation.gif', writer='pillow', fps=24)
 
 
 '''----------------------------------------------------------------------------------------------'''

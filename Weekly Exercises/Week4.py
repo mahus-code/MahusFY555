@@ -79,11 +79,11 @@ def getAcc_slow( pos2: NDArray[np.float64], mass2: NDArray[np.float64], G2: floa
 	return a
 			
 """ N-body simulation """
-	
+programStartTime= time.time()
 # Simulation parameters
-N         = 10    # Number of particles
+N         = 100    # Number of particles
 t         = 0      # current time of the simulation
-tEnd      = 2.0   # time at which simulation ends
+tEnd      = 10.0   # time at which simulation ends
 dt        = 0.01   # timestep
 softening = 0.1    # softening length
 G         = 10.0    # Newton's Gravitational Constant
@@ -240,9 +240,9 @@ anim_2d = animation.FuncAnimation(fig=fig_2d, func=animate_2d, frames=len(pos_2d
 '''----------------------------------------------------------------------------------------------'''
 '''                      Slow Simulation                                                         '''
 
-N         = 10    # Number of particles
+N         = 100    # Number of particles
 t         = 0      # current time of the simulation
-tEnd      = 2.0   # time at which simulation ends
+tEnd      = 10.0   # time at which simulation ends
 dt        = 0.01   # timestep
 softening = 0.1    # softening length
 G         = 1.0    # Newton's Gravitational Constant
@@ -271,5 +271,7 @@ print(f"Time for N-body process 2: {end_time_slow-start_time_slow:.2f} seconds")
 
 # Print a random compliment
 randomCompliment(compliments)
+programEndTime = time.time()
+print("Program Run time =", programEndTime-programStartTime)
 
 plt.show()

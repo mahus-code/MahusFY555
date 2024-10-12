@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from scipy.integrate import solve_ivp
 from scipy.integrate import odeint
 
+
 # Differential eq:
 
 def exponential_decay(t, y):
@@ -28,3 +29,4 @@ plt.plot(t_interval, sol2, label= 'odeint')
 plt.tight_layout()
 plt.legend(loc = 'best')
 plt.show()
+

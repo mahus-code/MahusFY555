@@ -5,6 +5,7 @@ from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 
 
+
 t0 = 8.9 # [Gyr]
 
 # Define our a(t) symbolically
@@ -76,7 +77,6 @@ def initParamInitialConditions(): # function to initialize our state vector and 
     
     stateVar = [t0, x, y, z, ktic, kx, ky, kz]
     return stateVar, ktic
-    
 
 def main() -> None:
     stateVar, ktic = initParamInitialConditions() # call the initial conditions and assign to stateVar and ktic
@@ -97,7 +97,7 @@ def main() -> None:
     ax1.set_xlabel('Time [Gyr]')
     ax1.grid(True)
     
-    # Plot the time 
+    # Plot 1/a(t)-1 versus time (z_direct)
     ax2.plot(t_sol, zDirect(t_sol), color='red') # plot (z-direct)
     ax2.set_title(r'Redshift calculated directly from a(t) $\left(\frac{1}{a(t)}-1\right)$')
     ax2.set_ylabel(r'Redshift $(z_{direct})$')

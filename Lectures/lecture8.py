@@ -32,5 +32,8 @@ z_quad = quadratic.fit_transform(z)
 
 poly_r = sgd_regressor.fit(z_quad, dL)
 dL_quad = poly_r.predict(z_quad)
+print(poly_r.coef_)
 plt.plot(z,dL_quad,'--')
 plt.show()
+
+

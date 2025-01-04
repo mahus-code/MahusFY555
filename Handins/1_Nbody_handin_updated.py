@@ -40,7 +40,7 @@ def getAcc( pos: NDArray[np.float64], mass: NDArray[np.float64], G: float, softe
 
 	# pack together the acceleration components
 	a: NDArray[np.float64] = np.hstack((ax,ay,az))
-	
+
 	return a
 
 def getAcc_slow( pos2: NDArray[np.float64], mass2: NDArray[np.float64], G2: float, softening2: float ) -> NDArray[np.float64]:
@@ -48,16 +48,16 @@ def getAcc_slow( pos2: NDArray[np.float64], mass2: NDArray[np.float64], G2: floa
 	y = pos2[:,1:2]
 	z = pos2[:,2:3]
 
-	i, j = np.shape(x) # returns rows and columns in i and j
+	i, j = np.shape(pos2) # returns rows and columns in i and j
 
-	# Initialize empty arrays (Nx1) to store component accelerations
+	# Initialize empty arrays (N,) to store component accelerations
 	ax = np.zeros(i)
 	ay = np.zeros(i)
 	az = np.zeros(i)
 
 	# Array to store all the accelerations (Nx3)
 	a = np.zeros((i, j))
-
+	
 	for n in range(i): 								# Loop through all rows of x
 		for m in range(i):							# For each value of x, subtract all values of x
 			dx = x[m, 0].item() - x[n, 0].item()	# we want x_j - x_i, .item() ensures we have a scalar
@@ -218,7 +218,7 @@ def animate_2d(frame):
 	return line_2d, current2dTime
 
 # Animations
-anim_2d = animation.FuncAnimation(fig=fig_2d, func=animate_2d, frames=len(pos_2d_time), interval=50)
+anim_2d = animation.FuncAnimation(fig=fig_2d, func=animate_2d, frames=len(pos_2d_time), interval=50) # 50 ms update time
 
 # Saving 2D and 3D animations
 anim_2d.save('2d particle animation.gif', writer='pillow', fps=24)
@@ -226,13 +226,6 @@ anim_2d.save('2d particle animation.gif', writer='pillow', fps=24)
 
 '''----------------------------------------------------------------------------------------------'''
 '''                      Slow Simulation                                                         '''
-
-N         = 10    # Number of particles
-t         = 0      # current time of the simulation
-tEnd      = 2.0   # time at which simulation ends
-dt        = 0.01   # timestep
-softening = 0.1    # softening length
-G         = 1.0    # Newton's Gravitational Constant
 
 # Timer starts for the slow simulation
 start_time_slow = time.time()

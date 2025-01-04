@@ -1,30 +1,9 @@
 import numpy as np
 
+x = np.array([[1],[2], [3], [4]])
 
-test_1 = np.arange(5)
-print(test_1)
-
-x = np.array([[1, 0], [0, 0], [1, 1], [0, 1], [0,1]])
-print(x.shape)
-
-z = tuple(zip(x, test_1))
+print(x.T)
+print(x)
 
 
-myList = []
-for xi, target in z:
-    myList.append(xi)
-
-print(myList)
-
-rgen = np.random.RandomState(1)
-w = rgen.normal(loc=0.0, scale=0.1, size=3)
-print(w)
-print(w[1:].shape)
-xi = np.array([2, 1])
-print("dot", np.dot(xi, w[1:]))
-
-x1=np.arange(0,3,1)
-x2=np.arange(-1,2,1)
-xx1, xx2 = np.meshgrid(x1,x2)
-print(xx1)
-print(xx2)
+print(x.T - x)

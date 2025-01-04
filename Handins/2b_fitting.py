@@ -1,4 +1,3 @@
-from scipy.integrate import quad
 import numpy as np
 from scipy import linalg # np.linalg
 import matplotlib.pyplot as plt
@@ -70,6 +69,7 @@ def main() -> None:
     plt.title('Noisy sine data with least squares fits and curve_fits')
     plt.xlabel('x')
     plt.ylabel('y')
+    plt.xlim(0, 6)
     plt.show()
 
 if __name__ == '__main__':

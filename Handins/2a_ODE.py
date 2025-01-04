@@ -43,7 +43,7 @@ def diffEquations(stateVarVector, lambda_val):
     dky_dlambda = -2*H(t)*ky*kt # ky'
     dkz_dlambda = -2*H(t)*kz*kt # kz'
 
-    # Vector of derivatives = [t', x', y', z', kx', ky', kz', kt']
+    # Vector of derivatives = [t', x', y', z', kt', kx', ky', kz']
     derivVector = [kt, kx, ky, kz, dkt_dlambda, dkx_dlambda, dky_dlambda, dkz_dlambda]
 
     return derivVector

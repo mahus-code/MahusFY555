@@ -15,6 +15,7 @@ def loadData():
     R0DemiMedium = np.array([0.0012633, 0.0012052, 0.00099374, 0.00093379, 0.0012414, 0.0012323, 0.0012672, 0.001242, 0.0012301, 0.0012902])
     demiLarge = np.array([0.071857, 0.066265, 0.072949, 0.073958, 0.073345, 0.07333, 0.072885, 0.07457, 0.07323, 0.073498])
     R0DemiLarge = np.array([0.0014885, 0.0013934, 0.0014472, 0.0014642, 0.0014739, 0.0014777, 0.0014618, 0.0014881, 0.0014898, 0.0014983])
+    
     X1 = np.hstack((demiSmall, demiMedium, demiLarge)) # Stack the data column wise
     X2 = np.hstack((R0DemiSmall, R0DemiMedium, R0DemiLarge))
     data = np.vstack((X1, X2)).T # Stack the data row wise and transpose
@@ -23,7 +24,6 @@ def loadData():
     y2 = np.ones(len(demiMedium))
     y3 = np.ones(len(demiLarge)) * 2
     target = np.hstack((y1, y2, y3))
-
     return data, target
 
 def main() -> None: 
@@ -54,12 +54,3 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
-
-
-
-
-
-
-
-
-

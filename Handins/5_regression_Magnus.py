@@ -171,7 +171,7 @@ dL_quad_fit = poly_r.predict(z_quad)
 
 # First we print the H0 values for the models from class (as well as our own)
 slope_poly = poly_r.coef_[1]
-
+print(poly_r.coef_)
 print("H_0 (from sklearn model) =", c/class_slope_lin[0], "km/s/Mpc")
 print("H_0 (from polynomial model) =", c/slope_poly, "km/s/Mpc")
 print("H_0 (from own Linear Regression model) =", H_0, "km/s/Mpc")

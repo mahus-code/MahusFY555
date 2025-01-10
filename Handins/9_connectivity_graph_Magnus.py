@@ -42,7 +42,7 @@ def sigmoid(x): # popular activation function
     return 1 / (1 + np.exp(-x))
 
 def cross_entropy_loss(y_true, y_predict): # popular loss/cost function
-    '''L(y_true, y_predict) = −∑y_true*log(y_predict).'''
+    '''L(y_true, y_predict) = −1/m ∑y_true*log(y_predict).'''
     l_sum = np.sum(np.multiply(y_true, np.log(y_predict)))
     m = y_true.shape[0]
     l = -(1./m) * l_sum
@@ -116,7 +116,7 @@ xtrain, xtest, ytrain, ytest = train_test_split(X, one_hot_y, test_size=0.3, ran
 N_features = int(xtrain.shape[1]) # gives us 13 features
 N_data = int(xtrain.shape[0]) # number of data points in training set, 124 (Total for wine is 178)
 N_classes = int(3) # number of nodes in output layer = number of categories
-N_hidden = int(np.floor((N_features+N_data)/2)) # number of nodes in hidden layer
+N_hidden = int(np.floor((N_features+N_data)/2)) # number of nodes in hidden layer (68)
 
 # -------------------------------------------------------------------------------------------------------------
 

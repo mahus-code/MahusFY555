@@ -36,8 +36,8 @@ print("Where C is the inverse regularization strength and we use a default value
 print("------------------------------------------------------------------------------------")
 
 from sklearn.metrics import accuracy_score
-print('Accuracy for standardized training data (5 iterations):', accuracy_score(ytest, ypred))
-print('Accuracy of non-standardized training data (5 iterations):', accuracy_score(ytest, nonStd_pred))
+print('Accuracy for standardized training data (7 iterations):', accuracy_score(ytest, ypred))
+print('Accuracy of non-standardized training data (7 iterations):', accuracy_score(ytest, nonStd_pred))
 print("------------------------------------------------------------------------------------")
 
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
@@ -81,7 +81,10 @@ def plot_decision_regions(x,y, classifier, test_idx = None, resolution = 0.02):
     if test_idx: # if test_idx is set
         x_train, y_train = np.delete(x, test_idx, axis=0), np.delete(y, test_idx, axis=0) # create xtrain and ytrain where
         # we delete the data indexed by 'test_idx'
+        print("x",x_train)
+        
         for idx, cl in enumerate(np.unique(y)): # Plot the remaining data
+            print("y",y_train==cl)
             plt.scatter(x_train[y_train==cl, 0], x_train[y_train==cl, 1], alpha = 0.8, marker = markers[idx], label = cl, edgecolors= 'black')
 
     if test_idx: # Then we plot the test portion
@@ -98,3 +101,4 @@ plt.xlabel('standardized feature 1')
 plt.ylabel('standardized feature 2')
 plt.legend(loc = 'upper left')
 plt.show()
+

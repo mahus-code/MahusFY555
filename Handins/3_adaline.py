@@ -29,6 +29,7 @@ class Adaline():
             net_input =  self.net_input(x) 
             output = self.activation(net_input)
             errors = (y - output)
+           
             
             self.w[1:] += self.eta * x.T.dot(errors) # Update errors (= -eta * nabla J(w))
             # where nabla J(w) = sum_i (y_i - output_i) * x_i

@@ -43,8 +43,8 @@ from sklearn.preprocessing import StandardScaler
 # Extract only the most important feature
 x_oneFeat = x[:, wine.feature_names.index('color_intensity')].reshape(-1,1)
 
-xtrain_oneFeat, xtest_oneFeat, ytrain_oneFeat, ytest_oneFeat = train_test_split(x_oneFeat, y, test_size=0.3, random_state=1, stratify=y)
-xtrain_all, xtest_all, ytrain_all, ytest_all = train_test_split(x, y, test_size=0.3, random_state=1, stratify=y)
+xtrain_oneFeat, xtest_oneFeat, ytrain_oneFeat, ytest_oneFeat = train_test_split(x_oneFeat, y, test_size=0.3, random_state=42, stratify=y)
+xtrain_all, xtest_all, ytrain_all, ytest_all = train_test_split(x, y, test_size=0.3, random_state=42, stratify=y)
 
 # Preprocessing the data
 

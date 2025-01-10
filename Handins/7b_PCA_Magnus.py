@@ -7,9 +7,10 @@ from astroML.datasets import sdss_corrected_spectra
 data = sdss_corrected_spectra.fetch_sdss_corrected_spectra()
 spectra = sdss_corrected_spectra.reconstruct_spectra(data)
 lam = sdss_corrected_spectra.compute_wavelengths(data)
-print(np.unique(data))
+#print(np.unique(data))
 
 # First we normalize the spectra (row wise)
+print(spectra.shape)
 normalized_spectra = preprocessing.normalize(spectra, axis=1)
 
 # Calculate the mean and standard deviation across all spectra
@@ -18,7 +19,6 @@ std_flux = normalized_spectra.std(axis=0)
 
 # Utilize the mean spectrum code from the example
 wavelengths = lam
-std = spectra.std(0)
 plt.plot(lam, mean_flux, color='black')
 plt.fill_between(wavelengths, mean_flux - std_flux, mean_flux + std_flux, color='#CCCCCC')
 plt.xlim(wavelengths[0], wavelengths[-1]) # Gives last element
@@ -35,7 +35,6 @@ from sklearn.decomposition import PCA
 # Perform PCA
 rpca = PCA(n_components=4, svd_solver='randomized', random_state=0)
 X_proj = rpca.fit_transform(X)
-print(X_proj.shape)
 y = data['z'] # where z is the redshift
 
 plt.figure()

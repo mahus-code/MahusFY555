@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from sklearn.datasets import load_iris, fetch_covtype
+from sklearn.datasets import fetch_covtype
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 
@@ -30,17 +30,17 @@ xtest = sc.fit_transform(xtest)
 
 # Create our neural network
 model = Sequential()
-model.add(Input(shape=(54,)))
-model.add(Dense(units=128, activation='sigmoid'))
+model.add(Input(shape=(54,))) # nr of features = 54
 model.add(Dense(units=64, activation='sigmoid'))
-model.add(Dense(units=32, activation='sigmoid'))
-model.add(Dense(units=16, activation='sigmoid'))
+#model.add(Dense(units=64, activation='sigmoid'))
+#model.add(Dense(units=32, activation='sigmoid'))
+#model.add(Dense(units=16, activation='sigmoid'))
 model.add(Dense(units=7, activation='softmax'))
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 '''Training our network and saving as new_model_layer'''
 history = model.fit(xtrain, ytrain, epochs=20, batch_size=16, validation_split=0.2)
-model.save('model_layer.keras')
+#model.save('model_layer.keras_x')
 
 loss, accuracy = model.evaluate(xtest, ytest)
 

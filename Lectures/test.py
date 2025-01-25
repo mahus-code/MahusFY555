@@ -1,58 +1,87 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Define parameters
-E_g = 1.17  # Bandgap in eV
-t1 = -3.3  # Hopping parameter 1 in eV
-t2 = t1 - E_g  # Hopping parameter 2 derived from bandgap
+import numpy as np
+import matplotlib.pyplot as plt
 
-# Lattice and Hamiltonian setup
-N = 100  # Number of sites (chain length)
-a = 1.0  # Lattice constant
+def ssh_chain(num_sites, t1, t2):
+    """
+    Generate an SSH Hamiltonian for a chain.
 
-# Create the SSH Hamiltonian
-def create_ssh_hamiltonian(N, t1, t2):
-    H = np.zeros((2 * N, 2 * N))
-    for i in range(N):
-        # Couplings within unit cells
-        H[2 * i, 2 * i + 1] = t1
-        H[2 * i + 1, 2 * i] = t1
+    Parameters:
+        num_sites (int): Number of sites in the chain.
+        t1 (float): Intracell hopping parameter.
+        t2 (float): Intercell hopping parameter.
 
-        # Couplings between unit cells
-        if i < N - 1:
-            H[2 * i + 1, 2 * (i + 1)] = t2
-            H[2 * (i + 1), 2 * i + 1] = t2
+    Returns:
+        np.ndarray: SSH Hamiltonian matrix.
+    """
+    H = np.zeros((num_sites, num_sites))
+    for i in range(num_sites - 1):
+        if i % 2 == 0:
+            H[i, i + 1] = t1
+        else:
+            H[i, i + 1] = t2
+        H[i + 1, i] = H[i, i + 1]
     return H
 
-# Compute energy spectrum and eigenstates
-H = create_ssh_hamiltonian(N, t1, t2)
-energies, eigenstates = np.linalg.eigh(H)
+def planck_distribution(omega, T):
+    """
+    Compute the Planck distribution.
 
-# Plot the energy spectrum
-plt.figure(figsize=(8, 6))
-plt.plot(range(2 * N), energies, 'o', label='Energy levels')
-plt.axhline(0, color='black', linestyle='--', linewidth=0.7, label='Fermi level')
-plt.xlabel("State Index")
-plt.ylabel("Energy (eV)")
-plt.title("Energy Spectrum of SSH Model")
-plt.legend()
-plt.grid()
-plt.show()
+    Parameters:
+        omega (float): Angular frequency.
+        T (float): Temperature in Kelvin.
 
-# Visualize edge states if present
-def plot_edge_states(eigenstates, N):
-    edge_states = np.abs(eigenstates[:, np.argsort(np.abs(energies))[:2]]) ** 2
-    x = np.arange(2 * N)
+    Returns:
+        float: Energy density at omega.
+    """
+    hbar = 1.0545718e-34  # Reduced Planck constant (J.s)
+    kB = 1.380649e-23     # Boltzmann constant (J/K)
+    if T == 0:
+        return 0
+    return hbar * omega / (np.exp(hbar * omega / (kB * T)) - 1)
 
-    plt.figure(figsize=(10, 6))
-    for i in range(2):
-        plt.plot(x, edge_states[:, i], label=f'Edge State {i+1}')
+def radiative_heat_transfer(chain1, chain2, T1, T2, freq_range):
+    """
+    Compute the radiative heat transfer between two chains.
 
-    plt.xlabel("Site Index")
-    plt.ylabel("Probability Density")
-    plt.title("Edge State Probability Distribution")
-    plt.legend()
-    plt.grid()
-    plt.show()
+    Parameters:
+        chain1 (np.ndarray): Hamiltonian of chain 1.
+        chain2 (np.ndarray): Hamiltonian of chain 2.
+        T1 (float): Temperature of chain 1 (K).
+        T2 (float): Temperature of chain 2 (K).
+        freq_range (np.ndarray): Frequency range for integration.
 
-plot_edge_states(eigenstates, N)
+    Returns:
+        float: Total radiative heat transfer.
+    """
+    eigenvals1 = np.linalg.eigvalsh(chain1)
+    eigenvals2 = np.linalg.eigvalsh(chain2)
+
+    total_heat = 0
+    for omega in freq_range:
+        n1 = planck_distribution(omega, T1)
+        n2 = planck_distribution(omega, T2)
+
+        # Simplified radiative transfer calculation
+        spectral_overlap = np.exp(-np.abs(omega - eigenvals1[:, None])) @ np.exp(-np.abs(omega - eigenvals2[None, :]))
+
+        heat_flow = spectral_overlap.sum() * (n1 - n2)
+        total_heat += heat_flow
+
+    return total_heat
+
+# Parameters
+num_sites = 10
+t1, t2 = 1.0, 0.5
+T1, T2 = 300, 100  # Temperatures in Kelvin
+freq_range = np.linspace(0.1, 10, 100)  # Frequency range in arbitrary units
+
+# Construct SSH chains
+chain1 = ssh_chain(num_sites, t1, t2)
+chain2 = ssh_chain(num_sites, t2, t1)
+
+# Compute radiative heat transfer
+heat_transfer = radiative_heat_transfer(chain1, chain2, T1, T2, freq_range)
+print(f"Radiative heat transfer: {heat_transfer:.2e} units")
